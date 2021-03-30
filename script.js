@@ -3,7 +3,7 @@
  * Las funcions de poner la basuta y la aspiradora en la matriz, validar casilla,  ya estan definias con variables
  * globales. Nadamas no se como sincronizar las acciones que se le da la matriz junto con lo que se muestra en 
  * la pantalla
- * 
+ * PD: se me paso agregar el cronometro
  */
 
 
