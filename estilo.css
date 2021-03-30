@@ -1,0 +1,117 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    background: rgb(65, 65, 65);
+    color: rgb(0, 0, 0);
+}
+
+/*----------------------------------------------------------*/
+
+.cuerpo{
+    display: flex;
+    flex-direction: column;
+    padding: 0 10px 0 10px;
+    background-color: rgb(14, 19, 22);
+    height: auto;
+}
+
+.tittle{
+    background-color: rgb(53, 56, 61);
+    color: white;
+
+    text-align: center;
+    font-family: Cursive;
+    letter-spacing: 2px;
+
+    font-size: 20px;
+    width: 80%;
+    margin: auto;
+    padding: 10px 0 10px 0;
+    
+}
+
+.centro{
+    margin: auto;
+    padding: 20px 40px 15px 40px;
+    display: flex;
+    background-color: teal;
+    width: 80%;
+}
+
+.tablero{
+    display: flex;
+    flex-wrap: wrap;
+    width: 540px;
+    background-color: rgb(233, 208, 155);
+}
+
+.cuadro{
+    background-color: rgb(233, 208, 155);
+    border-style: solid;
+    border-color: rgb(197, 161, 106);
+    border-width: 1px;
+    height: 45px;
+    width: 45px;
+}
+
+/**/
+/*.imagen{
+    background-color: rgb(233, 208, 155);   
+    background-color: rgb(233, 208, 155);
+    height: 45px;
+    width: 45px;
+}*/
+
+.img{
+    background-image: url(basura.png);
+}
+
+.img2{
+    height: 45px;
+    width: 45px;
+    background-image: url(aspiradora.png);
+}
+/**/
+
+.control{
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}
+
+.boton{
+    border-color:rgba(95, 37, 37, 0);   
+    color: rgb(247, 247, 247);
+
+    background-color: rgb(1, 19, 19);
+    padding: 17px 34px;
+
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    letter-spacing: -0.5px;
+
+    font-size: 17px;
+    margin: 4px 2px;
+
+    transition: 0.25s;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.boton:hover{
+  box-shadow: 0 0.5em 0.5em -0.4em rgb(72, 114, 250);
+  background-color: rgba(0, 0, 0, 0.5);
+  border-bottom: 2px solid rgb(60, 121, 253);
+
+}
+
+.boton:focus {
+    background-color: rgba(3, 70, 70, 0.384);
+    box-shadow: 0 0.5em 0.5em -0.4em rgb(2, 168, 77);
+    border-bottom: 2px solid rgb(12, 160, 91);
+}
