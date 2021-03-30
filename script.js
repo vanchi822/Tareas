@@ -163,7 +163,7 @@ function moverAspiradora(direccion){ //direccion de la aspiradora que va a tomar
 
 
 
-//----------------------Detecta los botones
+//----------------------Detecta los botones--------
 start.onclick = () => {
     iniciar_basura_aspiradora();
 }
