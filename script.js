@@ -1,179 +1,180 @@
-/**
- * Nota para Ivan:
- * Las funcions de poner la basuta y la aspiradora en la matriz, validar casilla,  ya estan definias con variables
- * globales. Nadamas no se como sincronizar las acciones que se le da la matriz junto con lo que se muestra en 
- * la pantalla
- * PD: se me paso agregar el cronometro
- */
-
-
-
+var create = document.querySelector("#Create");
 var start = document.querySelector("#Start");
-var stops = document.querySelector("#Stop");
+var pause = document.querySelector("#Pause");
 var resume = document.querySelector("#Resume");
-var delet = document.querySelector("#Delete");
+var reinicio = document.querySelector("#Reinicio");
 
 //Variables globales
-var Arreglo= 
-[[0,0,0,0,0,0,0,0,0,0,0,0],
- [0,0,0,0,0,0,0,0,0,0,0,0],
- [0,0,0,0,0,0,0,0,0,0,0,0],
- [0,0,0,0,0,0,0,0,0,0,0,0],
- [0,0,0,0,0,0,0,0,0,0,0,0],
- [0,0,0,0,0,0,0,0,0,0,0,0],
- [0,0,0,0,0,0,0,0,0,0,0,0],
- [0,0,0,0,0,0,0,0,0,0,0,0],
- [0,0,0,0,0,0,0,0,0,0,0,0],
- [0,0,0,0,0,0,0,0,0,0,0,0],
- [0,0,0,0,0,0,0,0,0,0,0,0],
- [0,0,0,0,0,0,0,0,0,0,0,0]];
+var Matriz = [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+];
 /**
- * 0 -> No trae nada
+ * 0 -> Vacio
  * 1 -> Basura
  * 2 -> Aspiradora
+ * 3 -> Visitado
  */
 
-var nbasura; //numero de basura que hay en el arreglo
-var aspiradoraimg; //contiene los datos del ID asignado
-var aspiradoramov; //contiene el ID en donde esta la aspiradora
-var aspiradora_X=0;  //coordenadas de la aspiradora
-var aspiradora_Y=0; //coordenadas de la aspiradora
+var nbasura; //numero de basura que hay en el Matriz
+var contadorBasura;
+var aspiradora_X = 0; //coordenadas de la aspiradora
+var aspiradora_Y = 0; //coordenadas de la aspiradora
+tamanioMatriz = 12;
 
-var movAspiradoraX; // se encargan de guardar la poscicion para mover la aspiradora(interfaz)
-var movAspiradoraY; // se encargan de guardar la poscicion para mover la aspiradora (interfaz)
+var banderaActiva = true;
 
 var tl = gsap.timeline(); //Variable que se encargara de mover la aspiradora, checa la pagina https://greensock.com/docs/v3/GSAP/gsap.to()
 
 //Funcion que crea la basura en la matriz
-function iniciar_basura_aspiradora(){  
+function iniciar_basura_aspiradora() {
     var cuadro;
     var i = 0;
     var num1 = 0;
     var num2 = 0;
-    while (i < 13){
-        num1 = Math.floor(Math.random()*12); 
-        num2 = Math.floor(Math.random()*12);
-        if(Arreglo[num1][num2] != 1){ //checamos si ya hay un numero asignado en esa matriz
-            if(i == 12){ //asigna la aspiradora
-                Arreglo[num1][num2] = 2;
+    nbasura = Math.floor(Math.random() * 10) + 15;
+    while (i < nbasura) {
+        num1 = Math.floor(Math.random() * tamanioMatriz);
+        num2 = Math.floor(Math.random() * tamanioMatriz);
+        if (Matriz[num1][num2] == 0) { //checamos si ya hay un numero asignado en esa matriz
+            if (i == (nbasura - 1)) { //asigna la aspiradora
+                Matriz[num1][num2] = 2;
                 aspiradora_X = num1; //las pocisiones en las que estara la aspiradora
                 aspiradora_Y = num2;
-                movAspiradoraX = 0; //inicia las variables para mover la aspiradora
-                movAspiradoraY = 0;
-                i++;
-                //-------Interfas
-                aspiradoramov = "#d"+num1+"-"+num2;
-                aspiradoraimg = $("#d"+num1+"-"+num2);
-                aspiradoraimg.addClass("img2");    //agregamos la clase con la imagen "aspiradora" en el cuadro
-                //-------Fin interfaz
+                aspiradoraimg = $("#c" + num1 + "-" + num2);
+                aspiradoraimg.addClass("img2"); //agregamos la clase con la imagen "aspiradora" en el cuadro
+            } else { //asigna la basura
+                Matriz[num1][num2] = 1;
+                cuadro = $("#c" + num1 + "-" + num2); //asignamos la id del cuadro
+                cuadro.addClass("img"); //agregamos la clase con la imagen "basura" en el cuadro
             }
-            else{   //asigna la basura
-            Arreglo[num1][num2] = 1;
             i++;
-            //-------Interfas
-            cuadro = $("#c"+num1+"-"+num2); //asignamos la id del cuadro
-            cuadro.addClass("img");    //agregamos la clase con la imagen "basura" en el cuadro
-            //-------Fin interfaz
-            }
         }
     }
-    basura = 12;
-    console.log(Arreglo); //imprime el arrego
+    console.log(Matriz); //imprime el Matriz
 }
 
 //Funcion que limpia la matriz
-function lipiar_matriz(){
-
+function limpiar_matriz() {
     var cuadro;
-    var i = 0;
-    var j = 0;
-    while(i < 12){
+    for (let i = 0; i < tamanioMatriz; ++i) {
         j = 0;
-        while (j < 12){
-            if(Arreglo[i][j] == 1){
-                Arreglo[i][j] = 0;
-
-                //Interfas
-                cuadro = $("#c"+i+"-"+j);
+        for (let j = 0; j < tamanioMatriz; ++j) {
+            if (Matriz[i][j] == 1) {
+                Matriz[i][j] = 0;
+                cuadro = $("#c" + i + "-" + j);
                 cuadro.removeClass("img"); //removemos la clase que contiene la imagen
-                //Fin interfaz
+            } else if (Matriz[i][j] == 2) {
+                Matriz[i][j] = 0;
+                cuadro = $("#c" + i + "-" + j);
+                cuadro.removeClass("img2");
+                Matriz[i][j] = 0;
             }
-            j++;
         }
-        i++;
     }
-    Arreglo[aspiradora_X][aspiradora_Y]=0;
-    aspiradoraimg.removeClass("img2");
-    console.log(Arreglo);
-    basura = 0;
-
-/* Quise verme macho con esto XDD
-    Arreglo = Arreglo.map((A1)=>{
-        return A1.map((A2) =>{
-            return 0;
-        });
-    });
-*/
+    console.log(Matriz);
+    nbasura = 0;
 }
+
 //checa si en esa casilla hay basura
-function validarCasilla(x,y){ // "x" y "y" son variables enteros
+function validarCasilla(x, y) { // "x" y "y" son variables enteros
     var cuadro;
-    if(x < 12 && y <12){
-        if(Arreglo[x][y] = 1){
-            cuadro = $("#c"+x+"-"+y);
-            cuadro.removeClass("img"); //removemos la clase
-            Arreglo[x][y] = 0; //limpiamos el arreglo 
+    if (Matriz[x][y] = 1) {
+        cuadro = $("#c" + x + "-" + y);
+        cuadro.removeClass("img"); //removemos la clase
+        cuadro.addClass("img2");
+        Matriz[x][y] = 0; //limpiamos el Matriz 
+    }
+}
+
+function inicia_busqueda() {
+    setTimeout(function() {
+        console.log(aspiradora_X + " " + aspiradora_Y);
+        let cuadro = $("#c" + aspiradora_X + "-" + aspiradora_Y);
+        cuadro.removeClass("img2");
+        while (1) {
+            console.log(aspiradora_X + " " + aspiradora_Y);
+            let aux = Math.floor(Math.random() * 4);
+            let x = aspiradora_X,
+                y = aspiradora_Y;
+            switch (aux) {
+                case 0: //Arriba
+                    x = aspiradora_X - 1;
+                    break;
+                case 1: //Derecha
+                    y = aspiradora_Y + 1;
+                    break;
+                case 2: //Abajo
+                    x = aspiradora_X + 1;
+                    break;
+                case 3: //Izquierda
+                    y = aspiradora_Y - 1;
+                    break;
+            }
+            if (x >= 0 && x < tamanioMatriz && y >= 0 && y < tamanioMatriz) {
+                aspiradora_X = x;
+                aspiradora_Y = y;
+                break;
+            }
         }
-    }
-    else{
-        console.log("Validar casilla: Cordenadas fuera de la matriz")
-    }
+        cuadro = $("#c" + aspiradora_X + "-" + aspiradora_Y);
+        if (Matriz[aspiradora_X][aspiradora_Y] == 1) {
+            ++contadorBasura;
+            Matriz[aspiradora_X][aspiradora_Y] = 0;
+            cuadro.removeClass("img");
+        }
+        cuadro.addClass("img2");
+        if (banderaActiva) inicia_busqueda();
+    }, 1000);
 }
-
-
-function moverAspiradora(direccion){ //direccion de la aspiradora que va a tomar
-    switch(direccion){
-        case 1://Arriba
-            movAspiradoraY = movAspiradoraY-45;
-            console.log("1 inicio")
-            tl.to(aspiradoramov,{duration:0.2,y:movAspiradoraY}); //mueve la aspiradora
-            console.log("1 fin")
-            break;
-        case 2://Derecha
-            movAspiradoraX = movAspiradoraX+45;
-            console.log("2 inicio")
-            tl.to(aspiradoramov,{duration:0.2,x:movAspiradoraX});
-            console.log("2 fin")
-            break;
-        case 3://Abajo
-            movAspiradoraY = movAspiradoraY+45;
-            console.log("3 inicio")
-            tl.to(aspiradoramov,{duration:0.2,y:movAspiradoraY});
-            console.log("3 fin")
-            break;
-        case 4://Izquierda
-            movAspiradoraX = movAspiradoraX-45;
-            console.log("4 inicio")
-            tl.to(aspiradoramov,{duration:0.2,x:movAspiradoraX});
-            console.log("4 fin")
-            
-            break;
-    }
-}
-
-
-
 //----------------------Detecta los botones--------
-start.onclick = () => {
+create.onclick = () => {
+    limpiar_matriz();
     iniciar_basura_aspiradora();
+    reinicio.removeAttribute("disabled");
+    start.removeAttribute("disabled");
+    contadorBasura = 0;
 }
-//-------- no se si poner estos botones o no
-stops.onclick = () => {
+
+start.onclick = () => {
+    pause.style.display = 'inline';
+    start.style.display = 'none';
+    create.setAttribute("disabled", "");
+    banderaActiva = true;
+    inicia_busqueda();
+}
+
+pause.onclick = () => {
+    resume.style.display = "inline";
+    pause.style.display = "none";
+    banderaActiva = false;
 }
 
 resume.onclick = () => {
+    pause.style.display = "inline";
+    resume.style.display = "none";
+    banderaActiva = true;
+    inicia_busqueda();
 }
 
-delet.onclick = () => {
-    lipiar_matriz();
+reinicio.onclick = () => {
+    limpiar_matriz();
+    M[aspiradora_X][aspiradora_Y] = 1;
+    create.removeAttribute("disabled");
+    reinicio.setAttribute("disabled", "");
+    start.setAttribute("disabled", "");
+    start.style.display = "inline";
+    resume.style.display = "none";
+    pause.style.display = "none";
+    banderaActiva = false;
 }

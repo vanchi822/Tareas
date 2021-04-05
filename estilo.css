@@ -1,17 +1,18 @@
-*{
+* {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
-body{
+body {
     background: rgb(65, 65, 65);
     color: rgb(0, 0, 0);
 }
 
+
 /*----------------------------------------------------------*/
 
-.cuerpo{
+.cuerpo {
     display: flex;
     flex-direction: column;
     padding: 0 10px 0 10px;
@@ -19,22 +20,19 @@ body{
     height: auto;
 }
 
-.tittle{
+.tittle {
     background-color: rgb(53, 56, 61);
     color: white;
-
     text-align: center;
     font-family: Cursive;
     letter-spacing: 2px;
-
     font-size: 20px;
     width: 80%;
     margin: auto;
     padding: 10px 0 10px 0;
-    
 }
 
-.centro{
+.centro {
     margin: auto;
     padding: 20px 40px 15px 40px;
     display: flex;
@@ -42,14 +40,14 @@ body{
     width: 80%;
 }
 
-.tablero{
+.tablero {
     display: flex;
     flex-wrap: wrap;
     width: 540px;
     background-color: rgb(233, 208, 155);
 }
 
-.cuadro{
+.cuadro {
     background-color: rgb(233, 208, 155);
     border-style: solid;
     border-color: rgb(197, 161, 106);
@@ -58,7 +56,10 @@ body{
     width: 45px;
 }
 
+
 /**/
+
+
 /*.imagen{
     background-color: rgb(233, 208, 155);   
     background-color: rgb(233, 208, 155);
@@ -66,48 +67,55 @@ body{
     width: 45px;
 }*/
 
-.img{
+.img {
     background-image: url(basura.png);
 }
 
-.img2{
+.img2 {
     height: 45px;
     width: 45px;
     background-image: url(aspiradora.png);
 }
+
+
 /**/
 
-.control{
+.control {
     display: flex;
     flex-direction: column;
     margin: auto;
 }
 
-.boton{
-    border-color:rgba(95, 37, 37, 0);   
+.boton {
+    border-color: rgba(95, 37, 37, 0);
     color: rgb(247, 247, 247);
-
     background-color: rgb(1, 19, 19);
     padding: 17px 34px;
-
     text-align: center;
     text-decoration: none;
     display: inline-block;
     letter-spacing: -0.5px;
-
     font-size: 17px;
     margin: 4px 2px;
-
     transition: 0.25s;
     transition-duration: 0.4s;
     cursor: pointer;
 }
 
-.boton:hover{
-  box-shadow: 0 0.5em 0.5em -0.4em rgb(72, 114, 250);
-  background-color: rgba(0, 0, 0, 0.5);
-  border-bottom: 2px solid rgb(60, 121, 253);
+.boton:disabled {
+    background-color: rgb(100, 19, 19);
+    opacity: 0.6;
+}
 
+.deshabilitado:hover {
+    text-decoration: none;
+    opacity: 0.6;
+}
+
+.boton:hover {
+    box-shadow: 0 0.5em 0.5em -0.4em rgb(72, 114, 250);
+    background-color: rgba(0, 0, 0, 0.5);
+    border-bottom: 2px solid rgb(60, 121, 253);
 }
 
 .boton:focus {
